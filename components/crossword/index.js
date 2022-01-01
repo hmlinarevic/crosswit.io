@@ -1,14 +1,13 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import Board from './board';
+import WordInput from './word-input';
 
 import { puzzleString } from '../../logic/crossword/model';
 import { setCurrentCrossword } from '../../logic/crossword/controller';
 
 export default function Crossword() {
 	const [puzzle, setPuzzle] = useState();
-
-	const inputRef = useRef();
 
 	useEffect(() => {
 		const puzzle = setCurrentCrossword(puzzleString);
@@ -20,19 +19,9 @@ export default function Crossword() {
 	};
 
 	return (
-		<section className="w-fit m-auto grid gap">
+		<section className="w-fit m-auto grid gap-y-10">
 			{puzzle && <Board puzzle={puzzle.string} size={puzzle.size} />}
-			<div
-				className="border rounded-full py-4 px-6"
-				onClick={focusInputHandler}
-			>
-				<input
-					ref={inputRef}
-					type="text"
-					placeholder="Search here"
-					className=" text-sky-600 placeholder:focus:text-sky-400 placeholder:transition-colors focus:outline-none w-full bg-inherit"
-				/>
-			</div>
+			{puzzle && <WordInput />}
 		</section>
 	);
 }

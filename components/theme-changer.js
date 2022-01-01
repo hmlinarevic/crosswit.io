@@ -18,14 +18,12 @@ export default function ThemeChanger() {
 		setTheme(theme === 'dark' ? 'light' : 'dark');
 	};
 
-	console.log(theme);
-
 	return (
-		<div className="border rounded">
-			<button onClick={setThemeHandler}>
+		<>
+			<button onClick={setThemeHandler} className="flex">
 				{theme === 'light' && <Image src={moonIcon} alt="moon icon" />}
 				{theme === 'dark' && <Image src={sunIcon} alt="sun icon" />}
 			</button>
-		</div>
+		</>
 	);
 }
