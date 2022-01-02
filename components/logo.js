@@ -1,25 +1,20 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
-import brainLogo from '../public/brainv.png';
+import brainPng from '../public/brainv.png';
 
-export default function Logo() {
-	const router = useRouter();
-	const isPlayPage = router.pathname === '/play';
-
+export default function Logo({ width, height, fontSize }) {
 	return (
 		<div className="flex items-center">
 			<Image
-				src={brainLogo}
+				src={brainPng}
 				alt="line art logo of human brain"
-				width={isPlayPage ? 58 : 80}
-				height={isPlayPage ? 58 : 80}
+				width={width}
+				height={height}
 				objectFit="contain"
 			/>
 			<span
-				className={`${
-					isPlayPage ? 'text-3xl' : 'text-4xl'
-				} font-hand uppercase  ml-4`}
+				className="font-hand uppercase ml-4"
+				style={{ fontSize: `${fontSize}` }}
 			>
 				crossw<span className="font-hand lowercase">i</span>t
 			</span>
