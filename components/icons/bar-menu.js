@@ -2,15 +2,15 @@ import { useState } from 'react';
 
 import classNames from 'classnames';
 
-export default function BarMenu({ onToggleMenu, className }) {
-  const [animateMenu, setAnimateMenu] = useState(false);
+export default function BarMenu({ onToggleMenu, className: propClasses }) {
+  const [animateBars, setAnimateBars] = useState(false);
 
-  const animateMenuHandler = () => {
-    setAnimateMenu((prevState) => !prevState);
+  const animateBarsHandler = () => {
+    setAnimateBars((prevState) => !prevState);
     onToggleMenu();
   };
 
-  const barStyles = {
+  const barTransitionStyles = {
     1: {
       transform: 'rotate(-45deg) translate(-4px, 5px)',
     },
@@ -22,29 +22,26 @@ export default function BarMenu({ onToggleMenu, className }) {
     },
   };
 
+  const containerClasses = classNames('cursor-pointer z-50', propClasses);
+
   const barClasses = classNames(
-    'w-[40px] h-[40px] bg-red-200 p-1 cursor-pointer z-50',
-    className
+    'w-[23px] h-[2px] bg-neutral-400 my-[7px] transition-transform'
   );
 
-  console.log(barClasses);
-
   return (
-    <div onClick={animateMenuHandler} className={barClasses}>
-      <div>
-        <div
-          className="w-full h-[2px] bg-neutral-400 my-[7px] transition-transform"
-          style={animateMenu ? barStyles[1] : null}
-        />
-        <div
-          className="w-full h-[2px] bg-neutral-400 my-[7px] transition-transform"
-          style={animateMenu ? barStyles[2] : null}
-        />
-        <div
-          className="w-full h-[2px] bg-neutral-400 my-[7px] transition-transform"
-          style={animateMenu ? barStyles[3] : null}
-        />
-      </div>
+    <div onClick={animateBarsHandler} className={containerClasses}>
+      <div
+        className={barClasses}
+        style={animateBars ? barTransitionStyles[1] : null}
+      />
+      <div
+        className={barClasses}
+        style={animateBars ? barTransitionStyles[2] : null}
+      />
+      <div
+        className={barClasses}
+        style={animateBars ? barTransitionStyles[3] : null}
+      />
     </div>
   );
 }
