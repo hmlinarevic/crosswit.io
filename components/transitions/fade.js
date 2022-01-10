@@ -19,6 +19,7 @@ export default function FadeTransition({ in: inProp, children }) {
     <Transition in={inProp} timeout={300}>
       {(state) => (
         <div
+          className="sm:hidden"
           style={{
             ...defaultStyle,
             ...transitionStyles[state],
