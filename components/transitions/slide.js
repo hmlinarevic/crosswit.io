@@ -1,3 +1,5 @@
+import { useRef } from 'react';
+
 import { Transition } from 'react-transition-group';
 
 const duration = 750;
@@ -15,8 +17,10 @@ const transitionStyles = {
 };
 
 export default function SlideTransition({ in: inProp, children }) {
+  const nodeRef = useRef();
+
   return (
-    <Transition in={inProp} timeout={750}>
+    <Transition in={inProp} timeout={750} nodeRef={nodeRef}>
       {(state) => (
         <div
           className="absolute left-0 top-0 w-full h-full"

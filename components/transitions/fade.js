@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Transition } from 'react-transition-group';
 
 const duration = 300;
@@ -15,8 +16,9 @@ const transitionStyles = {
 };
 
 export default function FadeTransition({ in: inProp, children }) {
+  const nodeRef = useRef();
   return (
-    <Transition in={inProp} timeout={300}>
+    <Transition in={inProp} timeout={300} nodeRef={nodeRef}>
       {(state) => (
         <div
           className="sm:hidden"
