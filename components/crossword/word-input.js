@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 
-import SearchIcon from '../icons/search';
+import SearchIcon from '../icons/svg/search-icon';
 
 export default function WordInput() {
 	const inputRef = useRef();
@@ -16,7 +16,7 @@ export default function WordInput() {
 		>
 			<SearchIcon size={20} className="text-inherit mr-3 flex items-center" />
 			<input
-				className="w-full bg-inherit caret-[#1a73e8] placeholder:focus:text-[#1a73e8]  dark:caret-[#8ab4f8] dark:placeholder:focus:text-[#8ab4f8] placeholder:transition-colors focus:outline-none"
+				className="w-full bg-inherit caret-[#1a73e8] placeholder:focus:text-[#1a73e8]  dark:caret-blue-300 dark:placeholder:focus:text-blue-300 placeholder:transition-colors focus:outline-none"
 				ref={inputRef}
 				type="text"
 				placeholder="Search here"
