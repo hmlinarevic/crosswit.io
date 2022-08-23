@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-export default function useActiveSelect(second) {
+export default function useActiveSelect() {
   const [isSelectActive, setIsSelectActive] = useState(false)
 
   const toggleSelect = () => {
