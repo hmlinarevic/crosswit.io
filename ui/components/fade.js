@@ -1,53 +1,58 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 
-import { toggle } from '../utils'
-
-export default function MyFade({ show, duration, children }) {
+export default function Fade({
+  toggler,
+  duration,
+  children,
+  className,
+  onEnd,
+}) {
   const [entering, setEntering] = useState(false)
   const [entered, setEntered] = useState(false)
-  const [exited, setExited] = useState(true)
 
+  // fade in when toggler is true
   useEffect(() => {
-    if (show && !entered) {
-      setExited(toggle)
-    }
+    const ids = []
 
-    if (!show && entered) {
-      console.log('we will unmount')
-      setEntering(toggle)
-      setEntered(toggle)
+    if (toggler) {
+      ids[0] = setTimeout(() => {
+        setEntering(true)
+      })
 
-      setTimeout(() => {
-        setExited(toggle)
+      ids[1] = setTimeout(() => {
+        setEntered(true)
       }, duration)
     }
-  }, [show, entered, duration])
 
-  useEffect(() => {
-    if (!exited) {
-      setTimeout(() => {
-        setEntering(toggle)
-      }, 0)
-
-      setTimeout(() => {
-        setEntered(toggle)
-        console.log('component entered')
-      }, duration)
+    return () => {
+      if (toggler) {
+        ids.forEach((id) => clearInterval(id))
+      }
     }
-  }, [exited, duration])
+  }, [toggler, duration])
 
-  if (exited) return null
+  // fade out when toggler is false while component is on the dom
+  useEffect(() => {
+    if (entered) {
+      setEntering(false)
+
+      onEnd && setTimeout(() => onEnd(), duration)
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [toggler])
 
   const defaultStyle = {
-    opacity: 0,
-    transitionProperty: 'opacity',
-    transitionDuration: `${duration}ms`,
-    transitionTimingFunction: 'ease-in-out',
+    transition: `opacity ${duration}ms ease-in-out`,
   }
 
   const addedStyle = {
     opacity: entering ? 1 : 0,
   }
 
-  return <div style={{ ...defaultStyle, ...addedStyle }}>{children}</div>
+  return (
+    <div className={className} style={{ ...defaultStyle, ...addedStyle }}>
+      {children}
+    </div>
+  )
 }
