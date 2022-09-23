@@ -16,15 +16,47 @@ const DELAYS = {
   long: 1000,
 }
 
-export default function Play({ level, time }) {
+const fetchAllLevels = async () => {
+  const levels = {}
+  let res, data, test
+
+  for (let i = 1; i <= 10; i++) {
+    if (i === 4) {
+      test = true
+    }
+    try {
+      res = await fetch(
+        `http://localhost:8080/api/crossword/${!test ? i : test}`
+      )
+      if (res.ok) {
+        data = await res.json()
+      }
+    } catch (error) {
+      console.log('error')
+    }
+    levels[i] = data
+  }
+
+  return levels
+}
+
+export default function Play({ level, time, allLevels }) {
   // move to Game immediately with true
   const [isPrologueDone, setIsPrologueDone] = useState(true)
+  const [userLevel, setUserLevel] = useState(1)
+
+  const currentLevel = allLevels[userLevel]
+
+  console.log({ currentLevel })
 
   const wordsToMemorize = level.insertedWords.map((data) => data.word)
 
+  console.log({ allLevels })
   const handlePrologueEnd = () => {
     setIsPrologueDone(true)
   }
+
+  useEffect(() => {}, [])
 
   return (
     <>
@@ -33,11 +65,17 @@ export default function Play({ level, time }) {
           words={wordsToMemorize}
           onEnd={handlePrologueEnd}
           delays={DELAYS}
-          time={time}
+          time={currentLevel.time}
         />
       )}
 
-      {isPrologueDone && <Game level={level} delays={DELAYS} time={time} />}
+      {isPrologueDone && (
+        <Game
+          level={currentLevel.level}
+          delays={DELAYS}
+          time={currentLevel.time}
+        />
+      )}
     </>
   )
 }
@@ -55,10 +93,13 @@ export async function getStaticProps() {
     console.log(err)
   }
 
+  const levels = await fetchAllLevels()
+
   return {
     props: {
       level: data.level,
       time: data.time,
+      allLevels: levels,
     },
   }
 }
