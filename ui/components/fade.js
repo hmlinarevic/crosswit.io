@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 export default function Fade({
   toggler,
-  duration,
+  duration = 1000,
   children,
   className,
   onEnd,
