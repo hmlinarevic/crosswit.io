@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import Fade from './fade'
 import Timer from './timer'
 
-export default function Prologue({ words, onEnd, delays, time }) {
+export default function Prologue({ level, words, onEnd, delays, time }) {
   const [isFirstPartDone, setIsFirstPartDone] = useState()
   const [showMemorize, setShowMemorize] = useState()
   const [showLevel, setShowLevel] = useState()
@@ -36,7 +36,7 @@ export default function Prologue({ words, onEnd, delays, time }) {
         setIsFirstPartDone(true)
       }, delays.prologue.firstPart + delays.fade)
       //
-    }, delays.normal)
+    }, delays.short)
 
     return () => {
       ids.forEach((id) => clearInterval(id))
@@ -54,7 +54,7 @@ export default function Prologue({ words, onEnd, delays, time }) {
       // show words
       ids[1] = setTimeout(() => {
         setShowWords(true)
-      }, delays.short)
+      }, 0)
 
       // show timer after a short delay
       ids[2] = setTimeout(() => {
@@ -77,7 +77,6 @@ export default function Prologue({ words, onEnd, delays, time }) {
     // end second part - unmount prologue from parent
     setTimeout(() => {
       onEnd()
-      console.log('prologue done!')
     }, delays.fade)
   }
 
@@ -86,14 +85,15 @@ export default function Prologue({ words, onEnd, delays, time }) {
       {!isFirstPartDone && (
         <div className="row-start-2 row-end-3">
           <Fade toggler={showMemorize} duration={delays.fade}>
-            <h2 className="text-center font-puzzle text-4xl dark:text-neutral-100">
+            <h2 className="text-center font-merriweather text-4xl tracking-wide">
               memorize
             </h2>
           </Fade>
 
           <Fade toggler={showLevel} duration={delays.fade}>
-            <span className="mt-1 block text-center font-ubuntu text-xs uppercase tracking-widest text-neutral-300">
-              level 1
+            <span className="block text-center font-ubuntuMono text-lg tracking-widest opacity-40">
+              level {level < 10 && 0}
+              {level}
             </span>
           </Fade>
         </div>
@@ -108,9 +108,8 @@ export default function Prologue({ words, onEnd, delays, time }) {
           >
             <ul className="text-center">
               {words.map((word, i) => {
-                // TODO --> check getting word duplicates from then API
                 return (
-                  <li key={word + i} className="font-puzzle text-lg">
+                  <li key={word + i} className="font-merriweather text-2xl">
                     {word}
                   </li>
                 )
@@ -124,10 +123,10 @@ export default function Prologue({ words, onEnd, delays, time }) {
             className="row-start-3 row-end-4"
           >
             <Timer
-              className="block text-center text-neutral-700"
+              className="block text-center"
               seconds={time.words}
-              delayStart={delays.fade}
-              onEnd={endSecondPart}
+              delayStart={1000 + delays.fade}
+              onTimeEnd={endSecondPart}
             />
           </Fade>
         </>
