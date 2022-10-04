@@ -90,9 +90,9 @@ export default function Game({ level, delays, time, onGameEnd }) {
   }, [numOfWordsToFind, timeLeft, handleAllWordsFound])
 
   return (
-    <section className="grid h-screen place-content-center">
+    <section className="grid h-screen place-content-center place-items-center">
       <Fade toggler={showOther} duration={delays.fade}>
-        <Logo size={64} className="mx-auto mb-16 w-fit" />
+        <Logo isLink size={64} className="mx-auto mb-16 w-fit" />
       </Fade>
       <Fade toggler={showBoard} duration={delays.fade} className="self-center">
         <Board level={level} onFoundWord={handleFoundWord} />
