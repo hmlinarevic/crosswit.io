@@ -5,24 +5,21 @@ import clsx from 'clsx'
 import brainPng from '../public/brainv.png'
 
 export default function Logo({
+  isLink,
   className: propStyles,
   size,
   textSize,
   showText,
 }) {
-  return (
+  const content = (
     <div className={clsx('flex items-center justify-center', propStyles)}>
-      <Link href="/">
-        <a>
-          <Image
-            src={brainPng}
-            alt="abstract brain symbol"
-            width={size}
-            height={size}
-            objectFit="contain"
-          />
-        </a>
-      </Link>
+      <Image
+        src={brainPng}
+        alt="abstract brain symbol"
+        width={size}
+        height={size}
+        objectFit="contain"
+      />
 
       {showText && (
         <span
@@ -33,5 +30,16 @@ export default function Logo({
         </span>
       )}
     </div>
+  )
+  return (
+    <>
+      {isLink ? (
+        <Link href="/">
+          <a>{content}</a>
+        </Link>
+      ) : (
+        <>{content}</>
+      )}
+    </>
   )
 }
