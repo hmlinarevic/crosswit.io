@@ -7,8 +7,8 @@ import Timer from './timer'
 
 const timerIds = []
 
-export default function Game({ level, delays, time, onGameEnd }) {
-  const findWordsNum = level.insertedWords.length
+export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
+  const findWordsNum = crossword.insertedWords.length
 
   const [showBoard, setShowBoard] = useState()
   const [showOther, setShowOther] = useState()
@@ -95,7 +95,7 @@ export default function Game({ level, delays, time, onGameEnd }) {
         <Logo isLink size={64} className="mx-auto mb-16 w-fit" />
       </Fade>
       <Fade toggler={showBoard} duration={delays.fade} className="self-center">
-        <Board level={level} onFoundWord={handleFoundWord} />
+        <Board crossword={crossword} onFoundWord={handleFoundWord} />
       </Fade>
       <Fade
         toggler={showOther}
@@ -103,7 +103,7 @@ export default function Game({ level, delays, time, onGameEnd }) {
         className="mt-16 text-center"
       >
         <Timer
-          seconds={time.crossword}
+          seconds={timeToPlay}
           delayStart={1000 + delays.fade}
           onTimeEnd={handleTimerEnded}
           areWordsFound={areWordsFound}
