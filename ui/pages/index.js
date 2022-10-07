@@ -12,8 +12,6 @@ import Logo from '../components/logo'
 import Button from '../components/ui/button'
 import ThemeChanger from '../components/theme-changer'
 
-const FADE_CONTENT_DURATION = 500
-
 export default function Home() {
   const [showContent, setShowContent] = useState(true)
 
@@ -29,22 +27,17 @@ export default function Home() {
 
   return (
     <section className="grid h-screen place-content-center">
-      <Fade
-        toggler={showContent}
-        duration={FADE_CONTENT_DURATION}
-        onEnd={changePage}
-      >
+      <Fade toggler={showContent} duration={500} onEnd={changePage}>
         <Logo size={72} showText={true} textSize="2.5rem" />
 
-        <span className="mt-[-4px] block text-center font-ubuntu text-base opacity-60">
+        <span className="mt-[-12px] block text-center font-ubuntu text-lg opacity-60">
           {'8-Way Crossword & Memory Trainer'}
         </span>
-        <div className="text-neutral mx-auto w-[120px]">
-          <Button className="mt-4 py-2 px-8" onClick={handlePlayClick}>
-            play
-          </Button>
-        </div>
-        <div className="mx-auto mt-20 flex w-[120px] items-center justify-evenly text-center">
+        <Button className="mt-6 py-2 px-8" onClick={handlePlayClick}>
+          play
+        </Button>
+        <div className="mx-auto mt-12 flex w-[120px] items-center justify-evenly text-center">
+          {/* leaderboard */}
           <button>
             <Link href="/">
               <a>
@@ -56,8 +49,9 @@ export default function Home() {
               </a>
             </Link>
           </button>
+          {/* about */}
           <button>
-            <Link href="/test">
+            <Link href="/about">
               <a>
                 <FontAwesomeIcon
                   icon={faCircleInfo}
@@ -67,6 +61,7 @@ export default function Home() {
               </a>
             </Link>
           </button>
+          {/* themes */}
           <div>
             <ThemeChanger />
           </div>
