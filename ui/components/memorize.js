@@ -3,38 +3,55 @@ import { useState, useEffect } from 'react'
 import Fade from './fade'
 import Timer from './timer'
 
-export default function Prologue({ level, words, onEnd, delays, time }) {
-  const [isFirstPartDone, setIsFirstPartDone] = useState()
-  const [showMemorize, setShowMemorize] = useState()
-  const [showLevel, setShowLevel] = useState()
-  const [showWords, setShowWords] = useState()
-  const [showTimer, setShowTimer] = useState()
+export default function Memorize({
+  level,
+  wordsToMemorize,
+  timeToMemorize,
+  delays,
+  onEnd,
+}) {
+  // TODO --> change ui to togglers
+  // const [togglers, setTogglers] = {}
+  const [showUi, setShowUi] = useState({
+    memorize: null,
+    level: null,
+    words: null,
+    timer: null,
+  })
+  const [isNotifyingDone, setIsNotifyingDone] = useState()
 
-  // first part - render memorize and level
+  const levelInfo = `level ${level < 10 && 0}${level}`
+
+  // show/hide ui - memorize, level
   useEffect(() => {
     const ids = []
 
     // delay everything
     ids[0] = setTimeout(() => {
-      // show memorize
+      // show notification - memorize
       ids[1] = setTimeout(() => {
-        setShowMemorize(true)
+        setShowUi((ui) => {
+          return { ...ui, memorize: true }
+        })
       })
-      // show level after a short delay
+      // show notification - level
       ids[2] = setTimeout(() => {
-        setShowLevel(true)
+        setShowUi((ui) => {
+          return { ...ui, level: true }
+        })
       }, delays.short)
 
-      // hide memorize and level
+      // hide notifications - memorize, level
       ids[3] = setTimeout(() => {
-        setShowMemorize(false)
-        setShowLevel(false)
-      }, delays.prologue.firstPart)
+        setShowUi((ui) => {
+          return { ...ui, memorize: false, level: false }
+        })
+      }, delays.memorize.firstPart)
 
-      // end first part
+      // end notifying phase
       ids[4] = setTimeout(() => {
-        setIsFirstPartDone(true)
-      }, delays.prologue.firstPart + delays.fade)
+        setIsNotifyingDone(true)
+      }, delays.memorize.firstPart + delays.fade)
       //
     }, delays.short)
 
@@ -42,10 +59,10 @@ export default function Prologue({ level, words, onEnd, delays, time }) {
       ids.forEach((id) => clearInterval(id))
     }
   }, [delays])
-  //
-  // second part - render words and timer
+
+  // show ui -  words, timer
   useEffect(() => {
-    if (!isFirstPartDone) return
+    if (!isNotifyingDone) return
 
     const ids = []
 
@@ -53,28 +70,32 @@ export default function Prologue({ level, words, onEnd, delays, time }) {
     ids[0] = setTimeout(() => {
       // show words
       ids[1] = setTimeout(() => {
-        setShowWords(true)
+        setShowUi((ui) => {
+          return { ...ui, words: true }
+        })
       }, 0)
 
-      // show timer after a short delay
+      // show timer
       ids[2] = setTimeout(() => {
-        setShowTimer(true)
+        setShowUi((ui) => {
+          return { ...ui, timer: true }
+        })
       }, delays.long)
-
       //
     }, delays.short)
 
     return () => {
       ids.forEach((id) => clearInterval(id))
     }
-  }, [delays, isFirstPartDone, onEnd])
+  }, [delays, isNotifyingDone, onEnd])
 
-  const endSecondPart = () => {
-    //hide timer and words
-    setShowWords(false)
-    setShowTimer(false)
+  const unmountComponent = () => {
+    // hide ui - words, timer
+    setShowUi((ui) => {
+      return { ...ui, words: false, timer: false }
+    })
 
-    // end second part - unmount prologue from parent
+    // call parent callback after ui is hidden
     setTimeout(() => {
       onEnd()
     }, delays.fade)
@@ -82,34 +103,33 @@ export default function Prologue({ level, words, onEnd, delays, time }) {
 
   return (
     <section className="grid h-screen place-content-center">
-      {!isFirstPartDone && (
+      {!isNotifyingDone && (
         <div className="row-start-2 row-end-3">
-          <Fade toggler={showMemorize} duration={delays.fade}>
-            <h2 className="text-center font-merriweather text-4xl tracking-wide">
+          <Fade toggler={showUi.memorize} duration={delays.fade}>
+            <h2 className="text-center font-ubuntu text-4xl tracking-wide">
               memorize
             </h2>
           </Fade>
 
-          <Fade toggler={showLevel} duration={delays.fade}>
+          <Fade toggler={showUi.level} duration={delays.fade}>
             <span className="block text-center font-ubuntuMono text-lg tracking-widest opacity-40">
-              level {level < 10 && 0}
-              {level}
+              {levelInfo}
             </span>
           </Fade>
         </div>
       )}
 
-      {isFirstPartDone && (
+      {isNotifyingDone && (
         <>
           <Fade
-            toggler={showWords}
-            duration={delays.fade}
             className="row-start-2 row-end-3"
+            toggler={showUi.words}
+            duration={delays.fade}
           >
             <ul className="text-center">
-              {words.map((word, i) => {
+              {wordsToMemorize.map((word, i) => {
                 return (
-                  <li key={word + i} className="font-merriweather text-2xl">
+                  <li key={word + i} className="font-ubuntu text-2xl">
                     {word}
                   </li>
                 )
@@ -118,15 +138,15 @@ export default function Prologue({ level, words, onEnd, delays, time }) {
           </Fade>
 
           <Fade
-            toggler={showTimer}
-            duration={delays.fade}
             className="row-start-3 row-end-4"
+            toggler={showUi.timer}
+            duration={delays.fade}
           >
             <Timer
               className="block text-center"
-              seconds={time.words}
+              seconds={timeToMemorize}
               delayStart={1000 + delays.fade}
-              onTimeEnd={endSecondPart}
+              onTimeEnd={unmountComponent}
             />
           </Fade>
         </>
