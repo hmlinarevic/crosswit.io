@@ -1,6 +1,9 @@
+import Link from 'next/link'
+import Image from 'next/image'
+
 import clsx from 'clsx'
 
-import Logo from '../components/logo'
+import brainPng from '../public/brainv.png'
 
 const instructions = [
   'Memorize words.',
@@ -14,62 +17,91 @@ const InstructionStep = ({ step: number, description, isLastStep }) => {
   const borderColor = isLastStep ? 'border-[#EB5390]' : 'border-[#57489D]'
 
   return (
-    <div className=" mb-8 last:mb-0">
-      {/* bulleted number */}
-      <span
-        className={clsx(
-          'mx-auto my-1 flex h-[30px] w-[30px] items-center justify-center rounded-full border',
-          borderColor
-        )}
-      >
-        {number}
-      </span>
-      {/* instructions */}
-      <p className="mx-auto max-w-[300px] text-center text-neutral-500">
-        {description}
-      </p>
+    <div className="mb-8 pl-0 last:mb-0">
+      <div className="flex w-fit items-center">
+        {/* bullet */}
+        <span
+          className={clsx(
+            'mx-auto my-1 mr-2 flex h-[30px] w-[30px] items-center justify-center rounded-full border',
+            borderColor
+          )}
+        >
+          {number}
+        </span>
+
+        {/* instruction */}
+        <p className="">{description}</p>
+      </div>
     </div>
   )
 }
 
 export default function About() {
   return (
-    <section className="h-screen pt-24 text-center font-ubuntu">
-      <Logo isLink size={72} showText={true} textSize="2.5rem" />
+    <section className="mx-auto w-[600px] font-roboto">
+      <nav className="mt-10 flex items-center justify-between">
+        {/* logo */}
+        <div className="flex select-none justify-center font-titilliumWeb text-3xl">
+          <span>cr</span>
+          <div className="relative top-[8px]">
+            <Image
+              src={brainPng}
+              alt="abstract brain symbol"
+              width={30}
+              height={30}
+              objectFit="contain"
+            />
+          </div>
+          <span>sswit</span>
+        </div>
 
-      <h2 className="mt-12 mb-2 text-3xl">Welcome</h2>
-      <p className="mx-auto max-w-[500px] text-neutral-500">
-        Thank you for trying out the app!
-      </p>
+        <ul className="flex">
+          <li className="mr-10">
+            <Link href="/">
+              <a className="underline">go back</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/play">
+              <a className="underline">play</a>
+            </Link>
+          </li>
+        </ul>
+      </nav>
 
-      <h2 className="mt-12 mb-2 text-3xl">About</h2>
-      <p className="mx-auto max-w-[500px] text-neutral-500">
-        Crosswit is a game where you can exercise parts of your brain
-        responsible for short term memory.
-      </p>
-      <p className="mx-auto mt-4 max-w-[500px] text-neutral-500">
-        Playing the game without writing the words down or taking screenshots
-        will have the best effect for this type of exercise.
-      </p>
+      <div className="pt-12">
+        <h2 className="mb-2 text-2xl text-neutral-500">welcome</h2>
+        <p className="">Thank you for trying out the app!</p>
 
-      <h2 className="mt-12 mb-2 text-3xl">Did You Know?</h2>
-      <p className="mx-auto max-w-[500px] text-neutral-500">
-        Crosswords alleviate anxiety, which will improve your mood.
-      </p>
+        <h2 className="mt-12 mb-2 text-2xl text-neutral-500">about</h2>
+        <p className="">
+          Crosswit is a game where you can exercise parts of your brain
+          responsible for short term memory.
+        </p>
+        <p className="mt-4 ">
+          Playing the game without writing the words down or taking screenshots
+          will have the best effect for this type of exercise.
+        </p>
 
-      <h2 className="mt-12 mb-6 text-3xl">How To Play?</h2>
-      {instructions.map((instruction, i, ar) => {
-        // const isLastStep = Boolean(i === ar.length - 1)
+        <h2 className="mt-12 mb-2 text-2xl text-neutral-500">did you know?</h2>
+        <p className="">
+          Crosswords alleviate anxiety, which will improve your mood.
+        </p>
 
-        return (
-          <InstructionStep
-            key={`i-s${i + 1}`}
-            step={i + 1}
-            description={instruction}
-            // isLastStep={isLastStep}
-          />
-        )
-      })}
+        <h2 className="mt-12 mb-6 text-2xl text-neutral-500">how to play?</h2>
+        {instructions.map((instruction, i, ar) => {
+          // const isLastStep = Boolean(i === ar.length - 1)
+
+          return (
+            <InstructionStep
+              key={`i-s${i + 1}`}
+              step={i + 1}
+              description={instruction}
+              // isLastStep={isLastStep}
+            />
+          )
+        })}
+      </div>
     </section>
   )
 }
