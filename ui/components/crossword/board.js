@@ -25,7 +25,7 @@ const colors = [
   '#e06494',
 ]
 
-export default function Board({ level, onFoundWord }) {
+export default function Board({ crossword, onFoundWord }) {
   const [selectMode, setSelectMode] = useState({ isActive: false })
   const [selectedData, setSelectedData] = useState({ squares: [], indexes: [] })
   const [searchResult, setSearchResult] = useState({ isOk: false })
@@ -70,10 +70,9 @@ export default function Board({ level, onFoundWord }) {
   }, [])
 
   const search = useCallback(() => {
-    console.log('searching...')
     let match
 
-    level.insertedWords.find((entry) => {
+    crossword.insertedWords.find((entry) => {
       const word = entry.word === selectedData.squares.join('').toLowerCase()
 
       if (word) {
@@ -84,7 +83,6 @@ export default function Board({ level, onFoundWord }) {
     })
 
     if (match) {
-      console.log('has match')
       setSearchResult({
         isOk: true,
         indexes: selectedData.indexes,
@@ -93,7 +91,7 @@ export default function Board({ level, onFoundWord }) {
       onFoundWord()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedData, level, onFoundWord])
+  }, [selectedData, crossword, onFoundWord])
 
   useEffect(() => {
     if (selectedData.squares.length) {
@@ -109,10 +107,12 @@ export default function Board({ level, onFoundWord }) {
 
   return (
     <ul
-      className="mx-auto grid h-fit w-fit justify-items-center gap-6 font-merriweather"
-      style={{ gridTemplateColumns: `repeat(${level.size}, minmax(0, 1fr))` }}
+      className="mx-auto grid h-fit w-fit justify-items-center gap-4 font-ubuntu text-lg"
+      style={{
+        gridTemplateColumns: `repeat(${crossword.size}, minmax(0, 1fr))`,
+      }}
     >
-      {level.squares.map((val, i) => (
+      {crossword.squares.map((val, i) => (
         <Square
           key={val + i}
           index={i}
