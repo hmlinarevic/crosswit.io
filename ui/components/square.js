@@ -41,7 +41,7 @@ export default function Square({
 
   const changeBgColor = (color) => {
     setStyles((prevStyles) => {
-      return { ...prevStyles, backgroundColor: color }
+      return { ...prevStyles, backgroundColor: color, color: 'white' }
     })
   }
 
