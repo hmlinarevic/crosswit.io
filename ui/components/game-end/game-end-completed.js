@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheckCircle } from '@fortawesome/free-regular-svg-icons'
@@ -11,18 +10,14 @@ import Fade from '../fade'
 export default function GameEndCompleted({
   level,
   result,
-  scores,
+  levelScore,
+  totalScore,
   wordsFoundNum,
   timeLeft,
   onNextClick,
+  onQuitClick,
 }) {
   const [showResults, setShowResults] = useState()
-
-  const router = useRouter()
-
-  const handleQuitClick = () => {
-    router.push('/')
-  }
 
   const handleNextClick = () => {
     setShowResults(false)
@@ -55,7 +50,7 @@ export default function GameEndCompleted({
       <div className="mt-4 mb-8 min-w-[220px] rounded-3xl border border-green-700 bg-green-900 bg-opacity-10 p-10">
         <ScoreRow className="mb-4 text-2xl">
           <span>score</span>
-          <span className="text-green-400">{scores.levelScore}</span>
+          <span className="text-green-400">{levelScore}</span>
         </ScoreRow>
         <ScoreRow>
           <span className="text-neutral-500">words found</span>
@@ -71,7 +66,7 @@ export default function GameEndCompleted({
       <Button className="rounded-3xl py-2 px-12" onClick={handleNextClick}>
         next
       </Button>
-      <Button className="mt-4 rounded-3xl py-2 px-12" onClick={handleQuitClick}>
+      <Button className="mt-4 rounded-3xl py-2 px-12" onClick={onQuitClick}>
         quit
       </Button>
 
@@ -79,9 +74,7 @@ export default function GameEndCompleted({
       <div className="mt-12 text-center">
         <span className="text-neutral-500">
           total score{' '}
-          <span className="text-violet-500 opacity-100">
-            {scores.totalScore}
-          </span>
+          <span className="text-violet-500 opacity-100">{totalScore}</span>
         </span>
       </div>
     </Fade>
