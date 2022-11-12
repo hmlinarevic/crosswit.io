@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
-
+import Link from 'next/link'
+import Image from 'next/image'
 import Fade from './fade'
-import Logo from './logo'
 import Board from './crossword/board'
 import Timer from './timer'
 
@@ -92,7 +92,21 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
   return (
     <section className="grid h-screen place-content-center place-items-center">
       <Fade toggler={showOther} duration={delays.fade}>
-        <Logo isLink size={64} className="mx-auto mb-16 w-fit" />
+        {/* logo */}
+        <Link href="/">
+          <a className="block">
+            <div className="relative h-[60px] w-[60px]">
+              <Image
+                src={brainPng}
+                alt="line art brain logo"
+                // width={60}
+                // height={60}
+                layout="fill"
+                objectFit="contain"
+              />
+            </div>
+          </a>
+        </Link>
       </Fade>
       <Fade toggler={showBoard} duration={delays.fade} className="self-center">
         <Board crossword={crossword} onFoundWord={handleFoundWord} />
