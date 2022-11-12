@@ -5,7 +5,7 @@
 export const toggle = (prevState) => !prevState
 
 export const fetchCrosswordLevel = async (level) => {
-  const res = await fetch(`http://localhost:3000/api/puzzle/level/${level}`)
+  const res = await fetch(`http://tatooine.services/api/puzzle/level/${level}`)
   const data = await res.json()
 
   try {
@@ -22,7 +22,7 @@ export const fetchAllCrosswordLevels = async () => {
 
   for (let i = 1; i <= 10; i++) {
     try {
-      res = await fetch(`http://localhost:3000/api/puzzle/level/${i}`)
+      res = await fetch(`http://tatooine.services/api/puzzle/level/${i}`)
       if (res.ok) {
         data = await res.json()
       }
