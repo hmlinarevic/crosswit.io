@@ -72,13 +72,11 @@ export default function Home() {
             {/* about */}
             <button>
               <Link href="/about">
-                <a>
-                  <FontAwesomeIcon
-                    icon={faCircleInfo}
-                    size="lg"
-                    className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300"
-                  />
-                </a>
+                <FontAwesomeIcon
+                  icon={faCircleInfo}
+                  size="lg"
+                  className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300"
+                />
               </Link>
             </button>
             {/* themes */}

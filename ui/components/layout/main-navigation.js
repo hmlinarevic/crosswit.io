@@ -1,41 +1,35 @@
-import { useState } from 'react';
-import Link from 'next/link';
+import { useState } from 'react'
+import Link from 'next/link'
 
-import ThemeChanger from '../theme-changer';
+import ThemeChanger from '../theme-changer'
 
-import Logo from '../logo';
-import ActivityIcon from '../icons/activity-icon';
+import Logo from '../logo'
+import ActivityIcon from '../icons/activity-icon'
 
 export default function MainNavigation(props) {
-  const [showActivityDropdown, setShowActivityDropdown] = useState(false);
+  const [showActivityDropdown, setShowActivityDropdown] = useState(false)
 
   const toggleActiviyDropdown = () => {
-    setShowActivityDropdown((prevState) => !prevState);
-  };
+    setShowActivityDropdown((prevState) => !prevState)
+  }
 
   return (
-    <nav className="w-4/5 h-full m-auto flex items-center justify-between ">
+    <nav className="m-auto flex h-full w-4/5 items-center justify-between ">
       <Link href="/">
-        <a>
-          <Logo width={58} height={58} fontSize="1.85rem" />
-        </a>
+        <Logo width={58} height={58} fontSize="1.85rem" />
       </Link>
 
-      <ul className="h-full text-neutral-400 flex items-stretch">
-        <li className=" w-32 h-full flex items-center justify-center cursor-pointer select-none hover:bg-neutral-900 hover:text-white">
-          <Link href="/new">
-            <a>New</a>
-          </Link>
+      <ul className="flex h-full items-stretch text-neutral-400">
+        <li className=" flex h-full w-32 cursor-pointer select-none items-center justify-center hover:bg-neutral-900 hover:text-white">
+          <Link href="/new">New</Link>
         </li>
         <li
-          className="w-32 h-full flex items-center justify-center cursor-pointer select-none hover:bg-neutral-900 hover:text-white"
+          className="flex h-full w-32 cursor-pointer select-none items-center justify-center hover:bg-neutral-900 hover:text-white"
           onClick={props.onSideBarToggle}
         >
-          <Link href="/about">
-            <a>About</a>
-          </Link>
+          <Link href="/about">About</Link>
         </li>
-        <li className="w-32 h-full flex items-center justify-center transition  select-none relative">
+        <li className="relative flex h-full w-32 select-none items-center  justify-center transition">
           <button
             onClick={toggleActiviyDropdown}
             className="rounded-full p-4 hover:bg-neutral-900 hover:text-white"
@@ -43,7 +37,7 @@ export default function MainNavigation(props) {
             <ActivityIcon size={22} />
           </button>
           {showActivityDropdown && (
-            <div className="absolute top-[100%] left-0 bg-neutral-500 w-full text-center">
+            <div className="absolute top-[100%] left-0 w-full bg-neutral-500 text-center">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque
                 esse mollitia temporibus eaque vero eligendi maiores quisquam
@@ -52,10 +46,10 @@ export default function MainNavigation(props) {
             </div>
           )}
         </li>
-        <li className="ml-6 h-full flex items-center justify-center select-none">
+        <li className="ml-6 flex h-full select-none items-center justify-center">
           <ThemeChanger className="rounded-full p-4 hover:bg-neutral-900 hover:text-white" />
         </li>
       </ul>
     </nav>
-  );
+  )
 }
