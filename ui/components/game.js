@@ -118,8 +118,7 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
         className="mt-16 text-center"
       >
         <Timer
-          // seconds={timeToPlay}
-          seconds={3}
+          seconds={timeToPlay}
           delayStart={1000 + delays.fade}
           onTimeEnd={handleTimerEnded}
           areWordsFound={areWordsFound}
