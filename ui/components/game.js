@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Fade from './fade'
 import Board from './crossword/board'
 import Timer from './timer'
+import brainPng from '../public/brainv.png'
 
 const timerIds = []
 
@@ -95,7 +96,7 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
         {/* logo */}
         <Link href="/">
           <a className="block">
-            <div className="relative h-[60px] w-[60px]">
+            <div className="relative mb-16 h-[60px] w-[60px]">
               <Image
                 src={brainPng}
                 alt="line art brain logo"
@@ -117,7 +118,8 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
         className="mt-16 text-center"
       >
         <Timer
-          seconds={timeToPlay}
+          // seconds={timeToPlay}
+          seconds={3}
           delayStart={1000 + delays.fade}
           onTimeEnd={handleTimerEnded}
           areWordsFound={areWordsFound}
