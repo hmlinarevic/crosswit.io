@@ -1,19 +1,19 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCrown } from '@fortawesome/free-solid-svg-icons'
+// import { faCrown } from '@fortawesome/free-solid-svg-icons'
 import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
-
-import brainPng from '../public/brainv.png'
 
 import Fade from '../components/fade'
 import Button from '../components/ui/button'
 import ThemeChanger from '../components/theme-changer'
 import Leaderboard from '../components/leaderboard'
+
+import brainPng from '../public/brainv.png'
 
 export default function Home() {
   const [showContent, setShowContent] = useState(true)
@@ -62,13 +62,13 @@ export default function Home() {
           </Button>
           <div className="mx-auto mt-12 flex w-[120px] items-center justify-evenly text-center">
             {/* leaderboard */}
-            <button onClick={showLeaderboardHandler}>
-              <FontAwesomeIcon
-                icon={faCrown}
-                size="lg"
-                className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300"
-              />
-            </button>
+            {/* <button onClick={showLeaderboardHandler}> */}
+            {/*   <FontAwesomeIcon */}
+            {/*     icon={faCrown} */}
+            {/*     size="lg" */}
+            {/*     className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300" */}
+            {/*   /> */}
+            {/* </button> */}
             {/* about */}
             <button>
               <Link href="/about">
