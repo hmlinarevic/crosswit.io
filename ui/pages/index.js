@@ -1,18 +1,9 @@
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-
-import Link from 'next/link'
 import Image from 'next/image'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faCrown } from '@fortawesome/free-solid-svg-icons'
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
-
 import Fade from '../components/fade'
 import Button from '../components/ui/button'
-import ThemeChanger from '../components/theme-changer'
 import Leaderboard from '../components/leaderboard'
-
 import brainPng from '../public/brainv.png'
 
 export default function Home() {
@@ -39,51 +30,31 @@ export default function Home() {
 
       <section className="grid h-screen place-content-center">
         <Fade toggler={showContent} duration={500} onEnd={changePage}>
-          {/* logo */}
-          <div className="flex select-none justify-center font-titilliumWeb text-6xl">
+          <div className="flex select-none items-center justify-center font-titilliumWeb text-6xl">
             <span>cr</span>
-            <div className="relative top-[10px]">
-              <Image
-                src={brainPng}
-                alt="abstract brain symbol"
-                width={60}
-                height={60}
-                objectFit="contain"
-              />
-            </div>
+            {/* logo */}
+            <Image
+              className="relative top-[10px]"
+              src={brainPng}
+              style={{ width: '60px', height: 'auto' }}
+              alt="abstract brain symbol"
+            />
             <span>sswit</span>
           </div>
 
-          <span className="mt-[-6px] block text-center font-ubuntu text-lg opacity-60">
+          <span className="block text-center font-ubuntu text-lg opacity-60">
             {'word search & memory trainer'}
           </span>
-          <Button className="mt-6 py-2 px-8" onClick={handlePlayClick}>
+          <Button className="mt-6 w-[120px] py-2" onClick={handlePlayClick}>
             play
           </Button>
-          <div className="mx-auto mt-12 flex w-[120px] items-center justify-evenly text-center">
-            {/* leaderboard */}
-            {/* <button onClick={showLeaderboardHandler}> */}
-            {/*   <FontAwesomeIcon */}
-            {/*     icon={faCrown} */}
-            {/*     size="lg" */}
-            {/*     className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300" */}
-            {/*   /> */}
-            {/* </button> */}
-            {/* about */}
-            <button>
-              <Link href="/about">
-                <FontAwesomeIcon
-                  icon={faCircleInfo}
-                  size="lg"
-                  className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300"
-                />
-              </Link>
-            </button>
-            {/* themes */}
-            <div>
-              <ThemeChanger />
-            </div>
-          </div>
+
+          <Button
+            className="mt-3 w-[120px] py-2"
+            onClick={() => router.push('/about')}
+          >
+            about
+          </Button>
         </Fade>
       </section>
     </>

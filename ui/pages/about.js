@@ -1,8 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
-
 import clsx from 'clsx'
-
+import ThemeChanger from '../components/theme-changer'
 import brainPng from '../public/brainv.png'
 
 const instructions = [
@@ -40,30 +39,27 @@ export default function About() {
   return (
     <section className="mx-auto w-[600px] font-roboto">
       <nav className="mt-10 flex items-center justify-between">
-        {/* logo */}
-        <div className="flex select-none justify-center font-titilliumWeb text-3xl">
+        <div className="flex select-none items-center justify-center font-titilliumWeb text-3xl">
           <span>cr</span>
-          <div className="relative top-[8px]">
-            <Image
-              src={brainPng}
-              alt="abstract brain symbol"
-              width={30}
-              height={30}
-              objectFit="contain"
-            />
-          </div>
+          {/* logo */}
+          <Image
+            className="relative top-[4px]"
+            src={brainPng}
+            style={{ width: '30px', height: 'auto' }}
+            alt="abstract brain symbol"
+          />
           <span>sswit</span>
         </div>
 
         <ul className="flex">
           <li className="mr-10">
-            <Link href="/">
-              <a className="underline">go back</a>
+            <Link href="/" className="underline">
+              go back
             </Link>
           </li>
           <li>
-            <Link href="/play">
-              <a className="underline">play</a>
+            <Link href="/play" className="underline">
+              play
             </Link>
           </li>
         </ul>
@@ -89,18 +85,19 @@ export default function About() {
         </p>
 
         <h2 className="mt-12 mb-6 text-2xl text-neutral-500">how to play?</h2>
-        {instructions.map((instruction, i, ar) => {
-          // const isLastStep = Boolean(i === ar.length - 1)
-
+        {instructions.map((instruction, i) => {
           return (
             <InstructionStep
               key={`i-s${i + 1}`}
               step={i + 1}
               description={instruction}
-              // isLastStep={isLastStep}
             />
           )
         })}
+      </div>
+      <div className="pt-12">
+        <h2 className="mb-6 text-2xl text-neutral-500">change theme</h2>
+        <ThemeChanger />
       </div>
     </section>
   )

@@ -1,14 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSun } from '@fortawesome/free-solid-svg-icons'
-import { faMoon } from '@fortawesome/free-solid-svg-icons'
-
-import MoonIcon from './icons/svg/moon-icon'
-import SunIcon from './icons/svg/sun-icon'
-
-export default function ThemeChanger({ className, children }) {
+export default function ThemeChanger() {
   const [mounted, setMounted] = useState(false)
   const { theme, setTheme } = useTheme()
 
@@ -17,35 +10,34 @@ export default function ThemeChanger({ className, children }) {
 
   if (!mounted) return null
 
-  const setThemeHandler = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
+  const handleLightClick = () => {
+    setTheme('light')
+  }
+  const handleDarkClick = () => {
+    setTheme('dark')
   }
 
   return (
     <>
-      <button onClick={setThemeHandler} className={className}>
-        {theme === 'light' && (
-          <FontAwesomeIcon
-            className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300"
-            icon={faMoon}
-            size="lg"
-          />
-        )}
-        {theme === 'dark' && (
-          <FontAwesomeIcon
-            className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300"
-            icon={faSun}
-            size="lg"
-          />
-        )}
-        {theme === 'system' && (
-          <FontAwesomeIcon
-            className="text-neutral-300 transition-colors hover:text-neutral-600 dark:text-neutral-600 dark:hover:text-neutral-300"
-            icon={faSun}
-            size="lg"
-          />
-        )}
-      </button>
+      <div className="relative flex w-[200px] justify-between overflow-hidden rounded-lg border border-neutral-700">
+        <button
+          onClick={handleLightClick}
+          className="w-full py-1 transition-colors"
+          style={
+            theme === 'light' ? { background: '#57489D', color: 'white' } : null
+          }
+        >
+          light
+        </button>
+        <span className="left-[25%] top-0 w-[1px] bg-neutral-700" />
+        <button
+          onClick={handleDarkClick}
+          className="w-full py-1 transition-colors"
+          style={theme === 'dark' ? { background: '#57489D' } : null}
+        >
+          dark
+        </button>
+      </div>
     </>
   )
 }
