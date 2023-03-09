@@ -93,20 +93,14 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
   return (
     <section className="grid h-screen place-content-center place-items-center">
       <Fade toggler={showOther} duration={delays.fade}>
-        {/* logo */}
-        <Link href="/">
-          <a className="block">
-            <div className="relative mb-16 h-[60px] w-[60px]">
-              <Image
-                src={brainPng}
-                alt="line art brain logo"
-                // width={60}
-                // height={60}
-                layout="fill"
-                objectFit="contain"
-              />
-            </div>
-          </a>
+        <Link href="/" passHref>
+          {/* logo */}
+          <Image
+            className="mb-16"
+            src={brainPng}
+            style={{ width: '60px', height: 'auto' }}
+            alt="abstract brain symbol"
+          />
         </Link>
       </Fade>
       <Fade toggler={showBoard} duration={delays.fade} className="self-center">
