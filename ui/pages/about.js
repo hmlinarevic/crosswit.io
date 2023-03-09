@@ -95,7 +95,7 @@ export default function About() {
           )
         })}
       </div>
-      <div className="pt-12">
+      <div className="mb-40 pt-12">
         <h2 className="mb-6 text-2xl text-neutral-500">change theme</h2>
         <ThemeChanger />
       </div>
