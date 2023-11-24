@@ -1,13 +1,18 @@
-import clsx from 'clsx'
+import clsx from "clsx";
 
 export default function Card({ className, children }) {
-  const styles = ``
+    const styles = ``;
 
-  return (
-    <>
-      <div className={clsx('w-full p-10 mb-8 border rounded-xl', className)}>
-        {children}
-      </div>
-    </>
-  )
+    return (
+        <>
+            <div
+                className={clsx(
+                    "mb-8 w-full rounded-xl border p-10",
+                    className
+                )}
+            >
+                {children}
+            </div>
+        </>
+    );
 }
