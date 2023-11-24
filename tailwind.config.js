@@ -6,6 +6,8 @@ module.exports = {
     darkMode: "class",
     theme: {
         fontFamily: {
+            caveat: ["Caveat"],
+            righteous: ["Righteous"],
             merriweather: ["Merriweather"],
             hand: ["Architects Daughter"],
             ubuntu: ["Ubuntu"],
@@ -14,7 +16,14 @@ module.exports = {
             titilliumWeb: ["Titillium Web"],
             roboto: ["Roboto"],
         },
-        extend: {},
+        extend: {
+            colors: {
+                base: "#09080C",
+                rose: "#ebbcba",
+                love: "#eb6f92",
+                muted: "#6e6a86",
+            },
+        },
     },
     variants: {},
     plugins: [],
