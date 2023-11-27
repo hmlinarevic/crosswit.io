@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
 
 import { fetchAllCrosswordLevels, calcGameScore } from "../utils";
 
@@ -10,6 +11,7 @@ const DELAYS = {
     // in miliseconds
     memorize: {
         firstPart: 4000,
+        firstPart: 400000, // testing
         secondPart: 4000,
     },
     fade: 1000,
@@ -21,6 +23,8 @@ const DELAYS = {
 let crossword;
 
 export default function Play({ allCrosswordLevels }) {
+    const router = useRouter()
+
     const [showUi, setShowUi] = useState({
         isMemorizeNext: true,
         isGameNext: false,
@@ -48,6 +52,25 @@ export default function Play({ allCrosswordLevels }) {
     } else {
         crossword = allCrosswordLevels[gameStats.level];
     }
+
+    // -- effects --
+
+    useEffect(() => {
+        const handleQuitButton = (e) => {
+            // console.log('key pressed', e.key)
+            if (e.key === "Escape" || e.keye == 27) {
+                console.log("escaping the memorize screen...")
+                router.push("/")
+            }
+        };
+
+        document.addEventListener("keydown", handleQuitButton);
+
+        return () => {
+            console.log('removing handler')
+            document.removeEventListener("keydown", handleQuitButton);
+        };
+    }, []);
 
     // --- handlers ---
 
