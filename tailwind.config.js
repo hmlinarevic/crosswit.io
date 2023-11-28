@@ -22,6 +22,9 @@ module.exports = {
                 rose: "#ebbcba",
                 love: "#eb6f92",
                 muted: "#6e6a86",
+                iris: "#c4a7e7",
+                gold: "#f6c177",
+                foam: "#9ccfd8"
             },
         },
     },
