@@ -24,7 +24,8 @@ module.exports = {
                 muted: "#6e6a86",
                 iris: "#c4a7e7",
                 gold: "#f6c177",
-                foam: "#9ccfd8"
+                foam: "#9ccfd8",
+                pine: "#31748f"
             },
         },
     },
