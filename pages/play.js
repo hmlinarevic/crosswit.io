@@ -38,7 +38,7 @@ export default function Play({ allCrosswordLevels }) {
     });
 
     const [gameStats, setGameStats] = useState({
-        level: 9,
+        level: 1,
         result: null,
         timeLeft: null,
         wordsFoundNum: null,
@@ -50,16 +50,13 @@ export default function Play({ allCrosswordLevels }) {
         crossword = retryData.crossword;
     } else {
         crossword = allCrosswordLevels[gameStats.level];
-        console.log({ crossword });
     }
 
     // -- effects --
 
     useEffect(() => {
         const handleQuitButton = (e) => {
-            // console.log('key pressed', e.key)
             if (e.key === "Escape" || e.keye == 27) {
-                console.log("escaping the memorize screen...");
                 router.push("/");
             }
         };
@@ -67,7 +64,6 @@ export default function Play({ allCrosswordLevels }) {
         document.addEventListener("keydown", handleQuitButton);
 
         return () => {
-            console.log("removing handler");
             document.removeEventListener("keydown", handleQuitButton);
         };
     }, []);

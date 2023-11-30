@@ -40,7 +40,6 @@ export default function Home() {
     };
 
     useEffect(() => {
-        console.log("setting default - dark -theme");
         setTheme("dark");
 
         // eslint-disable-next-line react-hooks/exhaustive-deps

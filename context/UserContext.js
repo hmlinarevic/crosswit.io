@@ -76,7 +76,6 @@ export default function UserProfileProvider({ children }) {
             dispatch({ type: "RESET_IS_UPDATE_LOCAL_STORAGE" });
         }
 
-        console.log(JSON.parse(localStorage.getItem("ui_settings")));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.isUpdateLocalStorage]);
 

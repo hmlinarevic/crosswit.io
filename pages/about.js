@@ -15,7 +15,6 @@ import clsx from "clsx";
 
 export default function About() {
     const [isHoverLogo, setIsHoverLogo] = useState(false);
-    console.log({isHoverLogo})
 
     return (
         <section className="mx-auto min-h-[calc(100vh+100px)] w-[500px] font-roboto">
