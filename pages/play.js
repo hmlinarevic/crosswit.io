@@ -11,8 +11,7 @@ const DELAYS = {
     // in miliseconds
     memorize: {
         firstPart: 4000,
-        firstPart: 400000, // testing
-        secondPart: 4000,
+        // firstPart: 400000, // testing
     },
     fade: 1000,
     short: 250,
@@ -22,8 +21,8 @@ const DELAYS = {
 
 let crossword;
 
-export default function Play({ allCrosswordLevels }) {
-    const router = useRouter()
+export default function Play({ allCrosswordLevels }) {       
+    const router = useRouter();
 
     const [showUi, setShowUi] = useState({
         isMemorizeNext: true,
@@ -39,7 +38,7 @@ export default function Play({ allCrosswordLevels }) {
     });
 
     const [gameStats, setGameStats] = useState({
-        level: 1,
+        level: 9,
         result: null,
         timeLeft: null,
         wordsFoundNum: null,
@@ -51,6 +50,7 @@ export default function Play({ allCrosswordLevels }) {
         crossword = retryData.crossword;
     } else {
         crossword = allCrosswordLevels[gameStats.level];
+        console.log({ crossword });
     }
 
     // -- effects --
@@ -59,15 +59,15 @@ export default function Play({ allCrosswordLevels }) {
         const handleQuitButton = (e) => {
             // console.log('key pressed', e.key)
             if (e.key === "Escape" || e.keye == 27) {
-                console.log("escaping the memorize screen...")
-                router.push("/")
+                console.log("escaping the memorize screen...");
+                router.push("/");
             }
         };
 
         document.addEventListener("keydown", handleQuitButton);
 
         return () => {
-            console.log('removing handler')
+            console.log("removing handler");
             document.removeEventListener("keydown", handleQuitButton);
         };
     }, []);

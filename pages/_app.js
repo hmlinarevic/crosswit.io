@@ -5,6 +5,7 @@ import Head from "next/head";
 import { ThemeProvider } from "next-themes";
 
 import { motion } from "framer-motion";
+import UserProfileProvider from "../context/UserContext";
 
 function MyApp({ Component, pageProps, router }) {
     return (
@@ -30,7 +31,9 @@ function MyApp({ Component, pageProps, router }) {
                         },
                     }}
                 >
-                    <Component {...pageProps} />
+                    <UserProfileProvider>
+                        <Component {...pageProps} />
+                    </UserProfileProvider>
                 </motion.div>
             </ThemeProvider>
         </>

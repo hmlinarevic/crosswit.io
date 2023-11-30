@@ -1,10 +1,14 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Fade from "./fade";
 import Board from "./crossword/board";
 import Timer from "./timer";
-import brainPng from "../public/brainv.png";
+import brainPng from "../public/brain-rose.png";
+import Hint, { HintLogo, HintTimer } from "./hint";
+import { UserProfileContext } from "../context/UserContext";
+import Logo from "./icons/logo";
+import clsx from "clsx";
 
 const timerIds = [];
 
@@ -16,6 +20,12 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
     const [numOfWordsToFind, setNumOfWordsToFind] = useState(findWordsNum);
     const [areWordsFound, setAreWordsFound] = useState();
     const [timeLeft, setTimeLeft] = useState();
+    const [state, dispatch] = useContext(UserProfileContext);
+
+    // colors state
+
+    const [isFocus, setIsFocus] = useState(false);
+    const [isWarning, setIsWarning] = useState(false);
 
     // --- fade in/out components on the page ---
 
@@ -37,6 +47,8 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
     );
 
     const showGameComponents = useCallback(() => {
+        // when game loads (default logo and timer colors)
+
         timerIds[0] = setTimeout(() => {
             setShowBoard(true);
         }, delays.short);
@@ -44,9 +56,20 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
         timerIds[1] = setTimeout(() => {
             setShowOther(true);
         }, delays.normal);
+
+        // after game loads set focus colors (logo, timer)
+
+        timerIds[2] = setTimeout(() => {
+            setIsFocus(true);
+        }, delays.short + 3000);
     }, [delays]);
 
     // --- handlers ---
+
+    const handleTenSecondsLeft = () => {
+        setIsFocus(false);
+        setIsWarning(true);
+    };
 
     const handleFoundWord = useCallback(() => {
         setNumOfWordsToFind((prevNum) => prevNum - 1);
@@ -96,16 +119,27 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
 
     return (
         <section className="grid h-screen place-content-center place-items-center">
-            <Fade toggler={showOther} duration={delays.fade}>
+            <Fade
+                toggler={showOther}
+                duration={delays.fade}
+                className="relative"
+            >
                 <Link href="/" passHref>
-                    {/* logo */}
-                    <Image
-                        className="mb-16"
-                        src={brainPng}
-                        style={{ width: "60px", height: "auto" }}
-                        alt="abstract brain symbol"
+                    <Logo
+                        className={clsx(
+                            isFocus
+                                ? "fill-muted"
+                                : isWarning
+                                ? "fill-love"
+                                : "fill-rose",
+                            "mb-10 w-[32px] transition-colors duration-1000 hover:fill-rose hover:duration-200"
+                        )}
                     />
                 </Link>
+
+                {state.isHideHintLogo ? null : (
+                    <HintLogo className="absolute bottom-20 left-16 w-[320px]" />
+                )}
             </Fade>
             <Fade
                 toggler={showBoard}
@@ -117,11 +151,23 @@ export default function Game({ crossword, delays, timeToPlay, onGameEnd }) {
             <Fade
                 toggler={showOther}
                 duration={delays.fade}
-                className="mt-16 text-center"
+                className="relative mt-10 text-center"
             >
+                {state.isHideHintTimer ? null : (
+                    <HintTimer className="absolute top-4 right-24 w-[280px]" />
+                )}
                 <Timer
+                    className={clsx(
+                            isFocus
+                                ? "text-muted"
+                                : isWarning
+                                ? "text-love"
+                                : "text-rose",
+                        "transition-colors duration-1000"
+                    )}
                     seconds={timeToPlay}
                     delayStart={1000 + delays.fade}
+                    onTenSecondsLeft={handleTenSecondsLeft}
                     onTimeEnd={handleTimerEnded}
                     areWordsFound={areWordsFound}
                     onWordsFoundSetTimeLeft={setTimeLeft}

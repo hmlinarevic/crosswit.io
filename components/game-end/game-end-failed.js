@@ -7,6 +7,7 @@ import Fade from "../fade";
 import Button from "../ui/button";
 
 import { fetchCrosswordLevel } from "../../utils";
+import { XCircle } from "react-feather";
 
 let retryLevel;
 
@@ -20,7 +21,7 @@ export default function GameEndFailed({
 }) {
     const [showResults, setShowResults] = useState();
 
-    const status = `level ${level < 10 && 0}${level} ${result}`;
+    const status = `level ${level} ${result}`;
 
     const handleRetryClick = () => {
         setShowResults(false);
@@ -45,34 +46,33 @@ export default function GameEndFailed({
     }, [level, totalScore]);
 
     return (
-        <Fade toggler={showResults} duration={500}>
-            <FontAwesomeIcon
-                icon={faXmarkCircle}
-                className="mx-auto mb-4 block text-4xl text-red-700"
+        <Fade toggler={showResults} duration={500} className="relative">
+            <XCircle
+                size={26}
+                className="mx-auto mb-1 block text-4xl text-love absolute top-[-2.25rem] left-2 right-2"
             />
+
             {/* status */}
-            <h2 className="mb-8 text-3xl">{status}</h2>
+            <h2 className="mb-6 font-caveat text-4xl text-love">{status}</h2>
 
             {/* buttons */}
             <Button
-                className="rounded-3xl py-2 px-12"
+                className="mx-auto mb-3"
                 onClick={handleRetryClick}
             >
                 retry
             </Button>
             <Button
-                className="mt-4 rounded-3xl py-2 px-12"
+                className="mx-auto"
                 onClick={onQuitClick}
             >
                 quit
             </Button>
             {/* total score */}
             <div className="mt-12 text-center">
-                <span className="text-neutral-500">
-                    total score{" "}
-                    <span className="text-violet-500 opacity-100">
-                        {totalScore}
-                    </span>
+                <span className="font-bold text-rose">
+                    TOTAL SCORE{" "}
+                    <span className="font-bold text-love">{totalScore}</span>
                 </span>
             </div>
         </Fade>

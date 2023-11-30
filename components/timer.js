@@ -19,6 +19,7 @@ export default function Timer({
     seconds: totalSeconds,
     delayStart = 0,
     onTimeEnd,
+   onTenSecondsLeft,
     areWordsFound,
     onWordsFoundSetTimeLeft,
 }) {
@@ -41,13 +42,14 @@ export default function Timer({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [areWordsFound]);
 
+    useEffect(() => {
+        if (onTenSecondsLeft && secondsLeft === 10) {
+            onTenSecondsLeft();
+        }
+    }, [onTenSecondsLeft, secondsLeft]);
+
     return (
-        <span
-            className={clsx(
-                "font-ubuntuMono text-xl text-neutral-700",
-                className
-            )}
-        >
+        <span className={clsx("font-ubuntuMono", className)}>
             {formatTime(time.minutes, time.seconds)}
         </span>
     );

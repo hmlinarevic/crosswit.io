@@ -6,6 +6,7 @@ import { faCheckCircle } from "@fortawesome/free-regular-svg-icons";
 import ScoreRow from "./score-row";
 import Button from "../ui/button";
 import Fade from "../fade";
+import { CheckCircle } from "react-feather";
 
 export default function GameEndCompleted({
     level,
@@ -34,61 +35,50 @@ export default function GameEndCompleted({
     }, []);
 
     // e.i. "level 01 completed"
-    const status = `level ${level < 10 && 0}${level} ${result}`;
+    const status = `level ${level} ${result}!`;
 
     return (
-        <Fade toggler={showResults} duration={500}>
+        <Fade toggler={showResults} duration={500} className="relative">
             {/* icon */}
-            <FontAwesomeIcon
-                icon={faCheckCircle}
-                className="mx-auto mb-4 block text-4xl text-green-700"
-            />
+            <CheckCircle size={26} className="mx-auto mb-3 block text-foam absolute top-[-2.25rem] left-2 right-2" />
             {/* status */}
-            <h2 className="mb-8 text-3xl">{status}</h2>
+            <h2 className="mb-4 text-center font-caveat text-4xl text-rose">
+                {status}
+            </h2>
 
             {/* score card */}
-            <div className="mt-4 mb-8 min-w-[220px] rounded-3xl border border-green-700 bg-green-900 bg-opacity-10 p-10">
-                <ScoreRow className="mb-4 text-2xl">
-                    <span>score</span>
-                    <span className="text-green-400">{levelScore}</span>
-                </ScoreRow>
+            <div className="mx-auto mt-4 w-[210px] border-t border-b border-rose border-opacity-50 py-4 px-3">
                 <ScoreRow>
-                    <span className="text-neutral-500">words found</span>
-                    <span className="text-right text-green-400">
+                    <span className="text-rose">words found</span>
+                    <span className="text-right text-foam">
                         {wordsFoundNum}
                     </span>
                 </ScoreRow>
                 <ScoreRow>
-                    <span className="text-neutral-500">time left</span>
-                    <span className="text-right text-green-400">
-                        + {timeLeft}
-                    </span>
+                    <span className="text-rose">time left</span>
+                    <span className="text-right text-foam">+ {timeLeft}</span>
+                </ScoreRow>
+                <ScoreRow className="">
+                    <span className="text-rose">score</span>
+                    <span className="text-foam">{levelScore}</span>
                 </ScoreRow>
             </div>
 
-            {/* buttons */}
-            <Button
-                className="rounded-3xl py-2 px-12"
-                onClick={handleNextClick}
-            >
-                next
-            </Button>
-            <Button
-                className="mt-4 rounded-3xl py-2 px-12"
-                onClick={onQuitClick}
-            >
-                quit
-            </Button>
-
             {/* total score */}
-            <div className="mt-12 text-center">
-                <span className="text-neutral-500">
-                    total score{" "}
-                    <span className="text-violet-500 opacity-100">
-                        {totalScore}
-                    </span>
+            <div className="mx-auto mb-10 w-[210px] border-b border-rose border-opacity-50 px-3 py-4 text-center">
+                <span className="flex justify-between font-bold text-rose">
+                    TOTAL SCORE{" "}
+                    <span className="text-foam opacity-100">{totalScore}</span>
                 </span>
             </div>
+
+            {/* buttons */}
+            <Button className="mx-auto mb-3" onClick={handleNextClick}>
+                next
+            </Button>
+            <Button className="mx-auto" onClick={onQuitClick}>
+                quit
+            </Button>
         </Fade>
     );
 }

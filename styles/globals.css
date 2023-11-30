@@ -9,10 +9,11 @@ body {
     font-family: Roboto, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
         Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
         sans-serif;
+    background: #09080C;
 }
 
-.dark body {
-    background: #171717;
+dark body {
+    background: #09080C;
 }
 
 a {

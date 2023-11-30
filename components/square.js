@@ -59,12 +59,12 @@ export default function Square({
     };
 
     return (
-        <li className="select-none">
+        <li style={styles} className="rounded flex select-none w-[42px] h-[42px] items-center justify-center">
             <span
                 onMouseDown={selectSquareOnMouseDown}
                 onMouseEnter={selectSquareOnMouseEnter}
-                className="block rounded border-amber-300 px-4 py-2 transition-colors"
-                style={styles}
+                className="rounded transition-colors w-[28px] h-[28px] flex items-center justify-center"
+                
             >
                 {(value && value.toUpperCase()) || "."}
             </span>

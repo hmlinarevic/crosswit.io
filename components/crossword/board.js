@@ -22,7 +22,7 @@ const colors = [
     "#bb528e",
     "#cc548c",
     "#dd5589",
-    "#e06494",
+    "#524f67",
 ];
 
 export default function Board({ crossword, onFoundWord }) {
@@ -32,8 +32,9 @@ export default function Board({ crossword, onFoundWord }) {
         indexes: [],
     });
     const [searchResult, setSearchResult] = useState({ isOk: false });
-    const [colorIndex, setColorIndex] = useState(0);
-    const [searchColor, setSearchColor] = useState(colors[colorIndex]);
+    const [colorIndex, setColorIndex] = useState(0); // turn of for testing
+    // const [searchColor, setSearchColor] = useState(colors[colorIndex]); // turn off for testing
+    const [searchColor, setSearchColor] = useState("#403d52"); // testing
 
     const toggleSelectMode = () => {
         setSelectMode((selectMode) => {
@@ -91,7 +92,8 @@ export default function Board({ crossword, onFoundWord }) {
                 isOk: true,
                 indexes: selectedData.indexes,
             });
-            setSearchColor(colors[colorIndex]);
+            // setSearchColor(colors[colorIndex]); // turn off for testing
+            setSearchColor(prevState => prevState);
             onFoundWord();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,7 +113,7 @@ export default function Board({ crossword, onFoundWord }) {
 
     return (
         <ul
-            className="mx-auto grid h-fit w-fit justify-items-center gap-4 font-ubuntu text-lg"
+            className="mx-auto grid h-fit w-fit justify-items-center gap-1.5 font-ubuntu"
             style={{
                 gridTemplateColumns: `repeat(${crossword.size}, minmax(0, 1fr))`,
             }}

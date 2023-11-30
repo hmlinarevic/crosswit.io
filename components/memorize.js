@@ -17,10 +17,9 @@ export default function Memorize({
         level: null,
         words: null,
         timer: null,
+        tip: null,
     });
     const [isNotifyingDone, setIsNotifyingDone] = useState();
-
-    const levelInfo = `level ${level < 10 && 0}${level}`;
 
     // show/hide ui - memorize, level
     useEffect(() => {
@@ -41,10 +40,18 @@ export default function Memorize({
                 });
             }, delays.short);
 
+            // new - show tip
+            // TODO: correct id number
+            ids[5] = setTimeout(() => {
+                setShowUi((ui) => {
+                    return { ...ui, tip: true };
+                });
+            }, delays.short + 1000);
+
             // hide notifications - memorize, level
             ids[3] = setTimeout(() => {
                 setShowUi((ui) => {
-                    return { ...ui, memorize: false, level: false };
+                    return { ...ui, memorize: false, level: false, tip: false };
                 });
             }, delays.memorize.firstPart);
 
@@ -52,8 +59,7 @@ export default function Memorize({
             ids[4] = setTimeout(() => {
                 setIsNotifyingDone(true);
             }, delays.memorize.firstPart + delays.fade);
-            //
-        }, delays.short);
+        }, 0);
 
         return () => {
             ids.forEach((id) => clearInterval(id));
@@ -104,17 +110,25 @@ export default function Memorize({
     return (
         <section className="grid h-screen place-content-center">
             {!isNotifyingDone && (
-                <div className="row-start-2 row-end-3">
+                <div className="relative row-start-2 row-end-3">
                     <Fade toggler={showUi.memorize} duration={delays.fade}>
-                        <h2 className="text-center font-ubuntu text-4xl tracking-wide">
-                            memorize
+                        <h2 className="text-center font-caveat text-5xl tracking-wide text-rose">
+                            Memorize
                         </h2>
                     </Fade>
 
                     <Fade toggler={showUi.level} duration={delays.fade}>
-                        <span className="block text-center font-ubuntuMono text-lg tracking-widest opacity-40">
-                            {levelInfo}
+                        <span className="text block text-center font-ubuntuMono tracking-widest text-love">
+                            {`level ${level}`}
                         </span>
+                    </Fade>
+
+                    <Fade toggler={showUi.tip} duration={delays.fade}>
+                        <div className="absolute top-60 w-full text-center text-sm italic text-neutral-600">
+                            <span className="font-bold text-iris">tip</span>:
+                            exit with{" "}
+                            <span className="font-bold text-gold">Esc</span> key
+                        </div>
                     </Fade>
                 </div>
             )}
@@ -131,7 +145,7 @@ export default function Memorize({
                                 return (
                                     <li
                                         key={word + i}
-                                        className="font-ubuntu text-2xl"
+                                        className="font-caveat text-4xl text-rose"
                                     >
                                         {word}
                                     </li>
@@ -146,8 +160,9 @@ export default function Memorize({
                         duration={delays.fade}
                     >
                         <Timer
-                            className="block text-center"
+                            className="mt-4 block text-center text-lg text-love"
                             seconds={timeToMemorize}
+                            // seconds={1000} // testing
                             delayStart={1000 + delays.fade}
                             onTimeEnd={unmountComponent}
                         />
