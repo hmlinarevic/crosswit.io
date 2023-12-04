@@ -116,20 +116,21 @@ export default function Memorize({
                             Memorize
                         </h2>
                     </Fade>
-
                     <Fade toggler={showUi.level} duration={delays.fade}>
                         <span className="text block text-center font-ubuntuMono tracking-widest text-love">
                             {`level ${level}`}
                         </span>
                     </Fade>
-
-                    <Fade toggler={showUi.tip} duration={delays.fade}>
-                        <div className="absolute top-60 w-full text-center text-sm italic text-neutral-600">
-                            <span className="font-bold text-iris">tip</span>:
-                            exit with{" "}
-                            <span className="font-bold text-gold">Esc</span> key
-                        </div>
-                    </Fade>
+                    {level === 1 ? (
+                        <Fade toggler={showUi.tip} duration={delays.fade}>
+                            <div className="absolute top-60 w-full text-center text-sm italic text-neutral-600">
+                                <span className="font-bold text-iris">tip</span>
+                                : exit with{" "}
+                                <span className="font-bold text-gold">Esc</span>{" "}
+                                key
+                            </div>
+                        </Fade>
+                    ) : null}
                 </div>
             )}
 
