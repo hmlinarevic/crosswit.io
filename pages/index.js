@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 import Image from "next/image";
 import Fade from "../components/fade";
 import Button from "../components/ui/button";
@@ -51,8 +52,12 @@ export default function Home() {
             {showLeaderboard && (
                 <Leaderboard onClose={showLeaderboardHandler} />
             )}
+            <Head>
+                <title>Crosswit</title>
+                <link rel="icon" href="/favicon.png" /> 
+            </Head>
 
-            <section className="grid h-screen place-content-center dark:bg-base">
+            <section className="dark:bg-base grid h-screen place-content-center">
                 <Fade
                     toggler={showContent}
                     duration={500}
