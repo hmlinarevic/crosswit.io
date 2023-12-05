@@ -42,7 +42,7 @@ export default function About() {
                     </Link>
 
                     <ul className="flex">
-                        <li className="mr-10">
+                        <li>
                             <Link
                                 href="/"
                                 className="text-muted underline hover:text-rose"
@@ -50,14 +50,14 @@ export default function About() {
                                 go back
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                href="/play"
-                                className="text-muted underline hover:text-rose"
-                            >
-                                play
-                            </Link>
-                        </li>
+                        {/* <li> */}
+                        {/*     <Link */}
+                        {/*         href="/play" */}
+                        {/*         className="text-muted underline hover:text-rose" */}
+                        {/*     > */}
+                        {/*         play */}
+                        {/*     </Link> */}
+                        {/* </li> */}
                     </ul>
                 </nav>
 
