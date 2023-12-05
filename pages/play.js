@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 import { fetchAllCrosswordLevels, calcGameScore } from "../utils";
 
@@ -21,7 +22,7 @@ const DELAYS = {
 
 let crossword;
 
-export default function Play({ allCrosswordLevels }) {       
+export default function Play({ allCrosswordLevels }) {
     const router = useRouter();
 
     const [showUi, setShowUi] = useState({
@@ -149,6 +150,10 @@ export default function Play({ allCrosswordLevels }) {
 
     return (
         <>
+            <Head>
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
+                <title>Crosswit - Let's Play!</title>
+            </Head>
             {showUi.isMemorizeNext && (
                 <Memorize
                     level={gameStats.level}

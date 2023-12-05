@@ -23,7 +23,7 @@ export function HintLogo({ className }) {
                     go to main menu / indicator
                 </span>
                 <Button
-                    className="flex h-[24px] w-[56px] items-center justify-center self-center text-sm hover:border-foam hover:bg-foam hover:bg-opacity-10 hover:text-foam"
+                    className="min-w-[78px] flex items-center justify-center self-center hover:border-foam hover:bg-foam hover:bg-opacity-10 hover:text-foam"
                     onClick={() => {
                         setIsHide(true);
                         dispatch({ type: "SET_HIDE_HINT_LOGO" });
@@ -48,7 +48,7 @@ export function HintTimer({ className }) {
                     time remaining
                 </span>
                 <Button
-                    className="flex h-[24px] w-[56px] items-center justify-center self-center text-sm hover:border-foam hover:bg-foam hover:bg-opacity-10 hover:text-foam"
+                    className="min-w-[78px] flex items-center justify-center self-center hover:border-foam hover:bg-foam hover:bg-opacity-10 hover:text-foam"
                     onClick={() => {
                         setIsHide(true);
                         dispatch({ type: "SET_HIDE_HINT_TIMER" });
