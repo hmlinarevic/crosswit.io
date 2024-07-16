@@ -1,15 +1,17 @@
-import { useState, useEffect, useCallback } from "react";
+// next
 import { useRouter } from "next/router";
 import Head from "next/head";
-
-import { fetchAllCrosswordLevels, calcGameScore } from "../utils";
-
+// react
+import { useState, useEffect, useCallback } from "react";
+// utils
+import { calcGameScore } from "../utils";
+// components
 import Memorize from "../components/memorize";
 import Game from "../components/game";
 import GameEnd from "../components/game-end/";
 
-const DELAYS = {
-    // in miliseconds
+// fade delays
+const DELAYS_MS = {
     memorize: {
         firstPart: 4000,
         // firstPart: 400000, // testing
@@ -20,10 +22,10 @@ const DELAYS = {
     long: 1000,
 };
 
-let crossword;
-
-export default function Play({ allCrosswordLevels }) {
+export default function Play() {
     const router = useRouter();
+
+    const [puzzle, setPuzzle] = useState(null);
 
     const [showUi, setShowUi] = useState({
         isMemorizeNext: true,
@@ -43,17 +45,8 @@ export default function Play({ allCrosswordLevels }) {
         result: null,
         timeLeft: null,
         wordsFoundNum: null,
+        isRetry: false,
     });
-
-    const [retryData, setRetryData] = useState();
-
-    if (retryData) {
-        crossword = retryData.crossword;
-    } else {
-        crossword = allCrosswordLevels[gameStats.level];
-    }
-
-    // -- effects --
 
     useEffect(() => {
         const handleQuitButton = (e) => {
@@ -69,7 +62,36 @@ export default function Play({ allCrosswordLevels }) {
         };
     }, []);
 
-    // --- handlers ---
+    /**
+     * Get puzzle level.
+     */
+    useEffect(() => {
+        console.log("getting level");
+
+        fetch(
+            `https://wordsearchpuzzles.xyz/api/puzzle/level/${gameStats.level}`
+        )
+            .then((res) => res.json())
+            .then((level) => setPuzzle(level));
+
+    }, [gameStats.level]);
+
+    /**
+     * Get puzzle level (retry).
+     */
+    useEffect(() => {
+        console.log("getting level");
+
+        if (!gameStats.isRetry) return
+
+        fetch(
+            `https://wordsearchpuzzles.xyz/api/puzzle/level/${gameStats.level}`
+        )
+            .then((res) => res.json())
+            .then((level) => setPuzzle(level));
+
+        setGameStats((prevState) => ({...prevState, isRetry: false}))
+    }, [gameStats.level, gameStats.isRetry]);
 
     const handleMemorizeEnd = () => {
         setShowUi((ui) => {
@@ -103,8 +125,6 @@ export default function Play({ allCrosswordLevels }) {
                     },
                 };
             });
-
-            setRetryData(null);
         }
 
         setShowUi((ui) => {
@@ -135,8 +155,11 @@ export default function Play({ allCrosswordLevels }) {
         });
     };
 
-    const handleRetryGame = (data) => {
-        setRetryData({ crossword: data });
+    const handleRetryGame = () => {
+        setGameStats((prevState) => ({
+            ...prevState,
+            isRetry: true,
+        }));
 
         setShowUi((ui) => {
             return {
@@ -148,29 +171,32 @@ export default function Play({ allCrosswordLevels }) {
         });
     };
 
+    if (!puzzle) return null;
+
     return (
         <>
             <Head>
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
                 <title>Crosswit - Let's Play!</title>
             </Head>
+
             {showUi.isMemorizeNext && (
                 <Memorize
                     level={gameStats.level}
-                    wordsToMemorize={crossword.insertedWords.map(
+                    wordsToMemorize={puzzle.insertedWords.map(
                         (data) => data.word
                     )}
-                    timeToMemorize={crossword.timeAllocation.memorize}
+                    timeToMemorize={puzzle.timeAllocation.memorize}
                     onEnd={handleMemorizeEnd}
-                    delays={DELAYS}
+                    delays={DELAYS_MS}
                 />
             )}
 
             {showUi.isGameNext && (
                 <Game
-                    crossword={crossword}
-                    timeToPlay={crossword.timeAllocation.game}
-                    delays={DELAYS}
+                    crossword={puzzle}
+                    timeToPlay={puzzle.timeAllocation.game}
+                    delays={DELAYS_MS}
                     onGameEnd={handleGameEnd}
                 />
             )}
@@ -189,14 +215,4 @@ export default function Play({ allCrosswordLevels }) {
             )}
         </>
     );
-}
-
-export async function getServerSideProps() {
-    const data = await fetchAllCrosswordLevels();
-
-    return {
-        props: {
-            allCrosswordLevels: data,
-        },
-    };
 }

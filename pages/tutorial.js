@@ -45,12 +45,7 @@ export default function Tutorial() {
             </Head>
 
             <section className="grid h-screen place-content-center">
-                <Fade
-                    toggler={showContent}
-                    duration={500}
-                    onEnd={changePage}
-                    className=""
-                >
+                <Fade toggler={showContent} duration={500} onEnd={changePage}>
                     <header className="text-center font-caveat">
                         <span className="block text-3xl text-neutral-700">
                             1min

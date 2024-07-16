@@ -2,7 +2,7 @@
     "name": "crossword",
     "private": true,
     "scripts": {
-        "dev": "next dev -p 5000",
+        "dev": "next dev -p 5001",
         "build": "next build",
         "start": "next start -p 5000",
         "lint": "next lint"
@@ -14,7 +14,7 @@
         "@fortawesome/react-fontawesome": "^0.2.0",
         "clsx": "^1.2.1",
         "framer-motion": "^6.2.8",
-        "next": "^13.2.3",
+        "next": "^14.2.5",
         "next-themes": "^0.0.15",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

@@ -1,15 +1,10 @@
-import { useState, useEffect, useCallback } from "react";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmarkCircle } from "@fortawesome/free-regular-svg-icons";
-
+// react
+import { useState, useEffect } from "react";
+// icons
+import { XCircle } from "react-feather";
+// components
 import Fade from "../fade";
 import Button from "../ui/button";
-
-import { fetchCrosswordLevel } from "../../utils";
-import { XCircle } from "react-feather";
-
-let retryLevel;
 
 export default function GameEndFailed({
     level,
@@ -27,7 +22,7 @@ export default function GameEndFailed({
         setShowResults(false);
 
         setTimeout(() => {
-            onRetryClick(retryLevel);
+            onRetryClick();
         }, 500);
     };
 
@@ -37,35 +32,21 @@ export default function GameEndFailed({
         }, 500);
     }, []);
 
-    useEffect(() => {
-        const storeRetryLevel = async () => {
-            retryLevel = await fetchCrosswordLevel(level);
-        };
-
-        storeRetryLevel();
-    }, [level, totalScore]);
-
     return (
         <Fade toggler={showResults} duration={500} className="relative">
             <XCircle
                 size={26}
-                className="mx-auto mb-1 block text-4xl text-love absolute top-[-2.25rem] left-2 right-2"
+                className="absolute top-[-2.25rem] left-2 right-2 mx-auto mb-1 block text-4xl text-love"
             />
 
             {/* status */}
             <h2 className="mb-6 font-caveat text-4xl text-love">{status}</h2>
 
             {/* buttons */}
-            <Button
-                className="mx-auto mb-3"
-                onClick={handleRetryClick}
-            >
+            <Button className="mx-auto mb-3" onClick={handleRetryClick}>
                 retry
             </Button>
-            <Button
-                className="mx-auto"
-                onClick={onQuitClick}
-            >
+            <Button className="mx-auto" onClick={onQuitClick}>
                 quit
             </Button>
             {/* total score */}
