@@ -59,7 +59,7 @@ export default function Memorize({
             ids[4] = setTimeout(() => {
                 setIsNotifyingDone(true);
             }, delays.memorize.firstPart + delays.fade);
-        }, 0);
+        }, 200);
 
         return () => {
             ids.forEach((id) => clearInterval(id));

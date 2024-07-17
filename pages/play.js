@@ -66,23 +66,18 @@ export default function Play() {
      * Get puzzle level.
      */
     useEffect(() => {
-        console.log("getting level");
-
         fetch(
             `https://wordsearchpuzzles.xyz/api/puzzle/level/${gameStats.level}`
         )
             .then((res) => res.json())
             .then((level) => setPuzzle(level));
-
     }, [gameStats.level]);
 
     /**
      * Get puzzle level (retry).
      */
     useEffect(() => {
-        console.log("getting level");
-
-        if (!gameStats.isRetry) return
+        if (!gameStats.isRetry) return;
 
         fetch(
             `https://wordsearchpuzzles.xyz/api/puzzle/level/${gameStats.level}`
@@ -90,8 +85,9 @@ export default function Play() {
             .then((res) => res.json())
             .then((level) => setPuzzle(level));
 
-        setGameStats((prevState) => ({...prevState, isRetry: false}))
-    }, [gameStats.level, gameStats.isRetry]);
+        setGameStats((prevState) => ({ ...prevState, isRetry: false }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [gameStats.isRetry]);
 
     const handleMemorizeEnd = () => {
         setShowUi((ui) => {
