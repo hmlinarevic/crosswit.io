@@ -13,11 +13,13 @@ export default function BoardTestPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [hoverHighlightIndexes, setHoverHighlightIndexes] = useState(null);
+  const [wordsFoundCount, setWordsFoundCount] = useState(0);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
     setHoverHighlightIndexes(null);
+    setWordsFoundCount(0);
     fetch(`${apiBase()}/api/wordsearch/level/${level}`)
       .then((res) => res.json())
       .then((data) => {
@@ -34,6 +36,13 @@ export default function BoardTestPage() {
       })
       .finally(() => setLoading(false));
   }, [level]);
+
+  const totalWords = puzzle?.insertedWords?.length ?? 0;
+  useEffect(() => {
+    if (totalWords > 0 && wordsFoundCount >= totalWords) {
+      setLevel((l) => l + 1);
+    }
+  }, [wordsFoundCount, totalWords]);
 
   return (
     <main className="min-h-screen bg-ink font-outfit text-text">
@@ -97,7 +106,7 @@ export default function BoardTestPage() {
         {!loading && puzzle && (
           <Board
             crossword={puzzle}
-            onFoundWord={() => setLevel((prev) => Math.min(10, prev + 1))}
+            onFoundWord={() => setWordsFoundCount((prev) => prev + 1)}
             hoverHighlightIndexes={hoverHighlightIndexes}
           />
         )}
