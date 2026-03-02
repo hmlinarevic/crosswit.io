@@ -53,16 +53,28 @@ export default function Square({
         }
     }, [isSelectMode, searchResult, index, searchColor, isHoverHighlight]);
 
-    // When parent reports this square is in the current drag path (e.g. touch), show selecting style
+    // When parent reports this square is in the current drag path, show selecting style;
+    // when it leaves the selection (e.g. user changed drag direction), clear back to default
     useEffect(() => {
-        if (isSelectMode && isInCurrentSelection) {
+        if (!isSelectMode) return;
+        if (isInCurrentSelection) {
             setStyles((prev) => ({
                 ...prev,
                 backgroundColor: IRIS,
                 color: "#000000",
             }));
+        } else {
+            const found = searchResult.isOk && searchResult.indexes.includes(index);
+            const bg = found ? FOAM : (isHoverHighlight ? PINE_HIGHLIGHT : DEFAULT_BG);
+            const fg = found ? "#000000" : "#ffffff";
+            setStyles((prev) => ({
+                ...prev,
+                borderColor: BORDER_SUBTLE,
+                backgroundColor: bg,
+                color: fg,
+            }));
         }
-    }, [isSelectMode, isInCurrentSelection]);
+    }, [isSelectMode, isInCurrentSelection, searchResult, index, isHoverHighlight]);
 
     // Hover highlight from word list (e.g. board-test page)
     useEffect(() => {
@@ -108,8 +120,8 @@ export default function Square({
 
     const selectSquareOnMouseEnter = (e) => {
         if (!isSelectMode) return;
-
-        setSelectingStyle();
+        // Do not set local highlight here; parent updates from mousemove and drives isInCurrentSelection.
+        // That way only the actual line from start to pointer is highlighted, no stray cells.
         onSquareEnter(e, index);
     };
 
