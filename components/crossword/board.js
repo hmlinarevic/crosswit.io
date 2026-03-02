@@ -104,13 +104,23 @@ export default function Board({ crossword, onFoundWord, hoverHighlightIndexes })
     const [currentSelectionIndexes, setCurrentSelectionIndexes] = useState([]);
     const selectModeRef = useRef(selectMode);
     const reportedWordKeysRef = useRef(new Set());
+    const lastPuzzleKeyRef = useRef("");
 
     useEffect(() => {
         selectModeRef.current = selectMode;
     }, [selectMode]);
 
+    // Only clear reported words when the puzzle actually changes (e.g. new level), not on
+    // every re-render, so mobile re-renders don't reset and allow the same word to count again.
     useEffect(() => {
-        reportedWordKeysRef.current.clear();
+        const puzzleKey = crossword.size + "-" + (crossword.insertedWords ?? [])
+            .map((e) => e.indexes.slice().sort((a, b) => a - b).join(","))
+            .sort()
+            .join("|");
+        if (lastPuzzleKeyRef.current !== puzzleKey) {
+            lastPuzzleKeyRef.current = puzzleKey;
+            reportedWordKeysRef.current.clear();
+        }
     }, [crossword]);
 
     const toggleSelectMode = () => {
@@ -205,27 +215,31 @@ export default function Board({ crossword, onFoundWord, hoverHighlightIndexes })
     }, [addToCollectedDataByIndex]);
 
     const search = useCallback(() => {
-        let match;
+        let matchedEntry = null;
 
         crossword.insertedWords.find((entry) => {
             const word =
                 entry.word === selectedData.squares.join("").toLowerCase();
 
             if (word) {
-                match = entry.indexes.every((entryIndex, i) => {
+                const match = entry.indexes.every((entryIndex, i) => {
                     return entryIndex === selectedData.indexes[i];
                 });
-                if (match) return true; // stop so we don't overwrite match with a later entry
+                if (match) {
+                    matchedEntry = entry;
+                    return true;
+                }
             }
         });
 
-        if (match) {
+        if (matchedEntry) {
             setSearchResult({
                 isOk: true,
                 indexes: selectedData.indexes,
             });
             setSearchColor(prevState => prevState);
-            const key = selectedData.indexes.join(",");
+            // Use puzzle's canonical indexes so the same word counts once regardless of selection direction
+            const key = matchedEntry.indexes.join(",");
             if (!reportedWordKeysRef.current.has(key)) {
                 reportedWordKeysRef.current.add(key);
                 onFoundWord();
